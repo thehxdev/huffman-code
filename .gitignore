@@ -1,0 +1,13 @@
+# Visual Studio
+.vs/
+out/
+
+# ClangD
+.cache/
+
+# Build
+build/
+
+# Misc
+*.svg
+*.png
