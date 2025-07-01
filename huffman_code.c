@@ -124,7 +124,7 @@ void __hc_ctx_tree_print(hc_node_t *root, int indent_level,
 		while (indent_level--)
 			putchar(' ');
 		printf("\'%c\' (%d) -> { freq = %ld, code = ", root->symbol, root->symbol, root->freq);
-		for (i = bits_count-2; i >= 0; i--)
+		for (i = bits_count-1; i >= 0; i--)
 			putchar(((bits >> i) & 0x1) + 48);
 		printf(" }\n");
 	} else {

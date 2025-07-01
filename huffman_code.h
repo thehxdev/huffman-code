@@ -17,7 +17,7 @@ extern "C" {
 
 #define hc_node_is_leaf(n) (((n)->lhs == NULL) && ((n)->rhs == NULL))
 
-#define hc_ctx_tree_print(root) __hc_ctx_tree_print((root), 0, 0, 0)
+#define hc_ctx_tree_print(root) __hc_ctx_tree_print((root), 0, 0, -1)
 
 typedef unsigned char hc_byte_t;
 typedef hc_byte_t hc_symbol_t;
