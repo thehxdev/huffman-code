@@ -6,8 +6,8 @@
 
 #define STH_MALLOC
 #ifdef STH_MALLOC
-	// enable memory allocation tracer provided by STH
-	#define STH_MEM_DBG
+	// memory allocation tracer provided by STH
+	// #define STH_MEM_DBG
 	#include <sth/malloc.h>
 
 	#define malloc(s) sth_malloc(s)

@@ -10,8 +10,6 @@ extern "C" {
 
 #define HC_LHS_BIT (0)
 #define HC_RHS_BIT (1)
-#define HC_LHS_CHAR ('0')
-#define HC_RHS_CHAR ('1')
 
 #define SYMBOLS_COUNT (UCHAR_MAX + 1)
 

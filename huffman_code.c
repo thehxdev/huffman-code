@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sth/string.h>
+#include <string.h>
 
 #include "malloc.h"
 #include "huffman_code.h"
@@ -25,9 +25,7 @@ static inline int hc_nodes_insert(hc_node_t **nodes, long count,
 {
 	long i;
 	for (i = base_idx; i < count && nodes[i]->freq < n->freq; i++);
-	sth_memmove_fast(&nodes[base_idx-1],
-					  &nodes[base_idx],
-					  sizeof(*nodes) * (i - base_idx));
+	memmove(&nodes[base_idx-1], &nodes[base_idx], sizeof(*nodes) * (i - base_idx));
 	nodes[i-1] = (hc_node_t*)n;
 	return 0;
 }
@@ -37,10 +35,7 @@ int hc_ctx_init(hc_ctx_t *ctx) {
 	if (!ctx->nodes)
 		return 1;
 
-	sth_memmove_fast(ctx->nodes,
-					sample_nodes,
-					sizeof(sample_nodes));
-
+	memmove(ctx->nodes, sample_nodes, sizeof(sample_nodes));
 	return 0;
 }
 
@@ -91,7 +86,7 @@ int hc_ctx_tree_build(hc_ctx_t *ctx) {
 			err = 1;
 			goto ret;
 		}
-		sth_bzero_fast(tmp, sizeof(*tmp));
+		memset(tmp, 0, sizeof(*tmp));
 		tmp->lhs = lhs;
 		tmp->rhs = rhs;
 
@@ -123,7 +118,7 @@ void __hc_ctx_tree_print(hc_node_t *root, int indent_level,
 	if (hc_node_is_leaf(root)) {
 		while (indent_level--)
 			putchar(' ');
-		printf("\'%c\' (%d) -> { freq = %ld, code = ", root->symbol, root->symbol, root->freq);
+		printf(" 0x%.2x = { freq = %ld, code = ", root->symbol, root->freq);
 		for (i = bits_count-1; i >= 0; i--)
 			putchar(((bits >> i) & 0x1) + 48);
 		printf(" }\n");
