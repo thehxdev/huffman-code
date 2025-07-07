@@ -121,7 +121,7 @@ void __hc_tree_print(hc_node_t *root, int indent_level,
 		printf(" 0x%.2x = { freq = %ld, code = ", root->symbol, root->freq);
 		for (i = bits_count-1; i >= 0; i--)
 			putchar(((bits >> i) & 0x1) + 48);
-		printf(", len = %2d }\n", bits_count);
+		printf(", len = %d }\n", bits_count);
 	} else {
 		__hc_tree_print(root->lhs, indent_level + 1, (bits << 1), bits_count+1);
 		__hc_tree_print(root->rhs, indent_level + 1, (bits << 1) | 1, bits_count+1);
