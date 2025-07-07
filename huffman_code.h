@@ -16,7 +16,8 @@ extern "C" {
 #define hc_node_is_leaf(n) (((n)->lhs == NULL) && ((n)->rhs == NULL))
 
 #define hc_tree_print(root) __hc_tree_print((root), 0, 0, (-1))
-#define hc_calc_compressed_size(root, size_ptr) __hc_calc_compressed_size((root), (-1), (size_ptr))
+#define hc_calc_compressed_size(root, size_ptr) \
+	__hc_calc_compressed_size((root), (-1), (size_ptr))
 
 typedef unsigned char hc_byte_t;
 typedef hc_byte_t hc_symbol_t;
