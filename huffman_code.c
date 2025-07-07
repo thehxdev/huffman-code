@@ -109,7 +109,7 @@ ret:
 
 // Traverse the tree and print each symbol's info
 // F***ing recursion! It's 5 AM already. F*** you recursion.
-void __hc_ctx_tree_print(hc_node_t *root, int indent_level,
+void __hc_tree_print(hc_node_t *root, int indent_level,
 						unsigned long bits, int bits_count)
 {
 	int i;
@@ -123,8 +123,20 @@ void __hc_ctx_tree_print(hc_node_t *root, int indent_level,
 			putchar(((bits >> i) & 0x1) + 48);
 		printf(", len = %2d }\n", bits_count);
 	} else {
-		__hc_ctx_tree_print(root->lhs, indent_level + 1, (bits << 1), bits_count+1);
-		__hc_ctx_tree_print(root->rhs, indent_level + 1, (bits << 1) | 1, bits_count+1);
+		__hc_tree_print(root->lhs, indent_level + 1, (bits << 1), bits_count+1);
+		__hc_tree_print(root->rhs, indent_level + 1, (bits << 1) | 1, bits_count+1);
+	}
+}
+
+void __hc_calc_compressed_size(hc_node_t *root, int bits_count, size_t *size) {
+	if (!root)
+		return;
+	if (hc_node_is_leaf(root)) {
+		// Shifting the bits 3 times to right is equivalent to divide by 8
+		*size += (root->freq * bits_count) >> 3;
+	} else {
+		__hc_calc_compressed_size(root->lhs, bits_count+1, size);
+		__hc_calc_compressed_size(root->rhs, bits_count+1, size);
 	}
 }
 

@@ -15,7 +15,8 @@ extern "C" {
 
 #define hc_node_is_leaf(n) (((n)->lhs == NULL) && ((n)->rhs == NULL))
 
-#define hc_ctx_tree_print(root) __hc_ctx_tree_print((root), 0, 0, -1)
+#define hc_tree_print(root) __hc_tree_print((root), 0, 0, (-1))
+#define hc_calc_compressed_size(root, size_ptr) __hc_calc_compressed_size((root), (-1), (size_ptr))
 
 typedef unsigned char hc_byte_t;
 typedef hc_byte_t hc_symbol_t;
@@ -48,8 +49,10 @@ int hc_ctx_freqs_finalize(hc_ctx_t *ctx);
 
 int hc_ctx_tree_build(hc_ctx_t *ctx);
 
-void __hc_ctx_tree_print(hc_node_t *root, int indent_level,
-						unsigned long bits, int bits_count);
+void __hc_tree_print(hc_node_t *root, int indent_level,
+					unsigned long bits, int bits_count);
+
+void __hc_calc_compressed_size(hc_node_t *root, int bits_count, size_t *size);
 
 void hc_ctx_destroy(hc_ctx_t *ctx);
 

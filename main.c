@@ -56,11 +56,12 @@ int main(int argc, char *argv[]) {
 	if ( (err = hc_ctx_tree_build(&ctx)))
 		goto free_buffer_ret;
 
-	hc_ctx_tree_print(ctx.root);
+	hc_tree_print(ctx.root);
 
-	// Just a trap for debugging
-	// puts("trap!");
-	// *(volatile char*)0;
+	size_t size = 0;
+	hc_calc_compressed_size(ctx.root, &size);
+	// Shifting the bits 10 times to right is equivalent to divide by 1024
+	printf("\nFinal compressed size: %zu KB\n", size >> 10);
 
 // Defer-like return
 free_buffer_ret:
