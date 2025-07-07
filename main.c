@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 
 	buffer = malloc(BUFFER_SIZE);
 	if (!buffer) {
-		fprintf(stderr, "failed to allocate memory for buffer\n");
+		perror("malloc");
 		goto close_fp_ret;
 	}
 
