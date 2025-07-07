@@ -51,7 +51,7 @@ int hc_ctx_freqs_finalize(hc_ctx_t *ctx);
 int hc_ctx_tree_build(hc_ctx_t *ctx);
 
 void __hc_tree_print(hc_node_t *root, int indent_level,
-					unsigned long bits, int bits_count);
+					unsigned long long bits, int bits_count);
 
 void __hc_calc_compressed_size(hc_node_t *root, int bits_count, size_t *size);
 

@@ -110,7 +110,7 @@ ret:
 // Traverse the tree and print each symbol's info
 // F***ing recursion! It's 5 AM already. F*** you recursion.
 void __hc_tree_print(hc_node_t *root, int indent_level,
-						unsigned long bits, int bits_count)
+						unsigned long long bits, int bits_count)
 {
 	int i;
 	if (!root)
