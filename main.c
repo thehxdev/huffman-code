@@ -3,9 +3,6 @@
 #include <assert.h>
 #include <string.h>
 
-#include "arena.h"
-#include "huffman_code.h"
-
 #define BUFFER_SIZE ARENA_MB(8ULL)
 
 // These example inputs copy-pasted from wikipedia

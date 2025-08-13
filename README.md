@@ -1,24 +1,14 @@
 # Huffman Code
-This is an implementation of [Huffman Coding](https://en.wikipedia.org/wiki/Huffman_coding) algorithm in C.
-
-## Get the source code
-This project depends on [sth](https://github.com/thehxdev/sth) library which is a base layer for my C projects.
-So you must clone repository with submodules.
-```bash
-git clone --recurse-submodules --remote-submodules \
-    --shallow-submodules --depth=1 https://github.com/thehxdev/huffman-code
-```
+This is an implementation of [Huffman Coding](https://en.wikipedia.org/wiki/Huffman_coding)
+algorithm in C.
 
 ## Build
-Build the project with `cmake`.
+Build the project with just a C compiler.
 ```bash
-mkdir -p build
-cmake -DCMAKE_BUILD_TYPE=Release -B build -S .
-cmake --build build
+cc -O3 -o hc build.c
 ```
-This will build the example executable that accepts a path to a file from command line and
-generates a Huffman Tree. Then prints the symbols, their frequency and encoded binary code.
+Then to generate a huffman-tree from a file:
 ```bash
 cd build
-./hc '<path_to_a_file>'
+./hc '<file-path>'
 ```

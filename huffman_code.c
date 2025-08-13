@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "arena.h"
-#include "huffman_code.h"
-
 static const hc_node_t sample_nodes[SYMBOLS_COUNT] = {
 	// Learned this from tcc source code :)
 	#include "sample_nodes.h"
