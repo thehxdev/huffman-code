@@ -7,6 +7,8 @@ out/
 
 # Build
 build/
+a.out
+hc
 
 # Misc
 *.svg
