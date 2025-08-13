@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "malloc.h"
+#include "arena.h"
 #include "huffman_code.h"
 
 static const hc_node_t sample_nodes[SYMBOLS_COUNT] = {
@@ -30,8 +30,8 @@ static inline int hc_nodes_insert(hc_node_t **nodes, long count,
 	return 0;
 }
 
-int hc_ctx_init(hc_ctx_t *ctx) {
-	ctx->nodes = malloc(sizeof(*ctx->nodes) * SYMBOLS_COUNT);
+int hc_ctx_init(arena_t *arena, hc_ctx_t *ctx) {
+	ctx->nodes = arena_alloc(arena, sizeof(*ctx->nodes) * SYMBOLS_COUNT);
 	if (!ctx->nodes)
 		return 1;
 
@@ -56,7 +56,7 @@ int hc_ctx_freqs_finalize(hc_ctx_t *ctx) {
 	return 0;
 }
 
-int hc_ctx_tree_build(hc_ctx_t *ctx) {
+int hc_ctx_tree_build(arena_t *arena, hc_ctx_t *ctx) {
 	int err = 0;
 	long lidx, ridx;
 	hc_node_t *lhs, *rhs, *tmp = NULL, *nodes_addr[SYMBOLS_COUNT];
@@ -81,7 +81,7 @@ int hc_ctx_tree_build(hc_ctx_t *ctx) {
 			break;
 
 		// Create the parent node then set lhs and rhs
-		tmp = malloc(sizeof(*tmp));
+		tmp = arena_alloc(arena, sizeof(*tmp));
 		if (!tmp) {
 			err = 1;
 			goto ret;

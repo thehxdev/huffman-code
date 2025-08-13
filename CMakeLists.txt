@@ -16,12 +16,11 @@ if (NOT CMAKE_BUILD_TYPE)
 	set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "" FORCE)
 endif()
 
-add_subdirectory(sth)
-
 add_executable(
 	hc
 	main.c
 	huffman_code.c
+	arena.c
 )
 
 target_compile_features(hc PRIVATE c_std_99)
@@ -32,5 +31,3 @@ else()
 	target_compile_options(hc PRIVATE $<BUILD_INTERFACE:-Wall;-Wextra>)
 	target_compile_options(hc PRIVATE $<$<CONFIG:Debug>:$<BUILD_INTERFACE:-g3>>)
 endif()
-
-target_link_libraries(hc PRIVATE sth)

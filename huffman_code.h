@@ -5,6 +5,7 @@
 extern "C" {
 #endif
 
+#include "arena.h"
 #include <stddef.h>
 #include <limits.h>
 
@@ -42,13 +43,13 @@ typedef struct hc_ctx {
 // 	} codes[SYMBOLS_COUNT];
 // } hc_table_t;
 
-int hc_ctx_init(hc_ctx_t *ctx);
+int hc_ctx_init(arena_t *arena, hc_ctx_t *ctx);
 
 void hc_ctx_freqs_update(hc_ctx_t *ctx, const hc_symbol_t *syms, size_t n);
 
 int hc_ctx_freqs_finalize(hc_ctx_t *ctx);
 
-int hc_ctx_tree_build(hc_ctx_t *ctx);
+int hc_ctx_tree_build(arena_t *arena, hc_ctx_t *ctx);
 
 void __hc_tree_print(hc_node_t *root, int indent_level,
 					unsigned long long bits, int bits_count);

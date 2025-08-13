@@ -1,18 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 
-#include <sth/string.h>
-
-#include "malloc.h"
+#include "arena.h"
 #include "huffman_code.h"
 
-#define BUFFER_SIZE (1024 * 1024)
+#define BUFFER_SIZE ARENA_MB(8ULL)
 
 // These example inputs copy-pasted from wikipedia
 // static const hc_byte_t input[] = "this is an example of a huffman tree";
 // static const hc_byte_t input[] = "A_DEAD_DAD_CEDED_A_BAD_BABE_A_BEADED_ABACA_BED";
 // static const hc_byte_t input[] = "";
+
+// global memory
+static arena_t *gmem;
 
 int main(int argc, char *argv[]) {
 	int err = 0;
@@ -26,11 +28,11 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 
-	// use sth memory debugger and allocation tracer to find memory bugs
-	// and leaks.
-	sth_mem_dbg_init();
-
-	if ( (err = hc_ctx_init(&ctx))) {
+	arena_config_t aconf = ARENA_DEFAULT_CONFIG;
+	aconf.reserve = ARENA_MB(64ULL);
+	aconf.commit  = BUFFER_SIZE;
+	gmem = arena_new(&aconf);
+	if ( (err = hc_ctx_init(gmem, &ctx))) {
 		fprintf(stderr, "failed to create huffman context\n");
 		goto ret;
 	}
@@ -38,23 +40,23 @@ int main(int argc, char *argv[]) {
 	fp = fopen(argv[1], "rb");
 	if (!fp) {
 		perror("fopen");
-		goto destroy_ctx_ret;
+		goto ret_arena_destroy;
 	}
 
-	buffer = malloc(BUFFER_SIZE);
+	buffer = arena_alloc(gmem, BUFFER_SIZE);
 	if (!buffer) {
-		perror("malloc");
-		goto close_fp_ret;
+		perror("arena_alloc");
+		goto ret_close_fp;
 	}
 
 	while ( (nread = fread(buffer, sizeof(*buffer), BUFFER_SIZE, fp)) > 0)
 		hc_ctx_freqs_update(&ctx, buffer, nread);
 
 	if ( (err = hc_ctx_freqs_finalize(&ctx)))
-		goto free_buffer_ret;
+		goto ret_close_fp;
 
-	if ( (err = hc_ctx_tree_build(&ctx)))
-		goto free_buffer_ret;
+	if ( (err = hc_ctx_tree_build(gmem, &ctx)))
+		goto ret_close_fp;
 
 	hc_tree_print(ctx.root);
 
@@ -63,16 +65,10 @@ int main(int argc, char *argv[]) {
 	// Shifting the bits 10 times to right is equivalent to divide by 1024
 	printf("\nFinal compressed size: %zu KB\n", size >> 10);
 
-// Defer-like return
-free_buffer_ret:
-	free(buffer);
-close_fp_ret:
-	if (fp)
-		fclose(fp);
-destroy_ctx_ret:
-	hc_ctx_destroy(&ctx);
+ret_close_fp:
+	fclose(fp);
+ret_arena_destroy:
+	arena_destroy(gmem);
 ret:
-	sth_mem_dbg_print();
-	sth_mem_dbg_destroy();
 	return err;
 }
