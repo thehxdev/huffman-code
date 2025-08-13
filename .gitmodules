@@ -1,4 +1,0 @@
-[submodule "sth"]
-	path = sth
-	url = https://github.com/thehxdev/sth.git
-	branch = main
