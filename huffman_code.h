@@ -35,14 +35,6 @@ typedef struct hc_ctx {
 	size_t base_idx;
 } hc_ctx_t;
 
-// typedef struct hc_table {
-// 	struct {
-// 		hc_freq_t freq;
-// 		hc_byte_t code;
-// 		hc_byte_t size;
-// 	} codes[SYMBOLS_COUNT];
-// } hc_table_t;
-
 int hc_ctx_init(arena_t *arena, hc_ctx_t *ctx);
 
 void hc_ctx_freqs_update(hc_ctx_t *ctx, const hc_symbol_t *syms, size_t n);

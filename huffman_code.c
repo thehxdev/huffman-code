@@ -7,7 +7,7 @@ static const hc_node_t sample_nodes[SYMBOLS_COUNT] = {
 	#include "sample_nodes.h"
 };
 
-static inline int node_freq_comp_fn(const void *l, const void *r) {
+static int node_freq_comp_fn(const void *l, const void *r) {
 	return ((*(hc_freq_t*)l) - (*(hc_freq_t*)r));
 }
 
